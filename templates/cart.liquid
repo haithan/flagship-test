@@ -35,6 +35,12 @@
       </tbody>
     </table>
     <div>
+      <label for="add-instructions">Add instructions</label>
+      <input type="checkbox" id="add-instructions" name="add-instructions" value="1">
+      <div id="instructions-text" style="display: none;">
+        <label for="instructions-text">Enter instructions:</label>
+        <textarea id="instructions-text" name="note"></textarea>
+      </div>
       <p>sub total : {{ cart.total_price | money }}</p>
       <button type="submit" name="update">Update</button>
       <button type="submit" name="checkout">Checkout</button>
@@ -44,3 +50,15 @@
   <h2>cart</h2>
   Cart is empty
 {% endif %}
+<script>
+  var addInstructionsCheckbox = document.getElementById("add-instructions");
+  var instructionsText = document.getElementById("instructions-text");
+
+  addInstructionsCheckbox.addEventListener("change", function() {
+    if (addInstructionsCheckbox.checked) {
+      instructionsText.style.display = "block";
+    } else {
+      instructionsText.style.display = "none";
+    }
+  });
+</script>

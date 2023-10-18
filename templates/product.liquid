@@ -8,7 +8,7 @@
 {% endfor %}
 <h1>{{ product.title }}</h1>
 <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
-  <select name="id" id="productSelect">
+  <select name="id" id="product-select">
     {% for variant in product.variants %}
       {% if variant.available %}
         <option value="{{ variant.id }}">
@@ -22,8 +22,68 @@
     {% endfor %}
   </select>
   {{ current_variant.price | money }}
-  <label for="Quantity">quantity</label>
-  <input type="number" id="Quantity" name="quantity" value="1" min="1">
-  <button type="submit" name="add" id="AddToCart">Add to cart</button>
+  <label for="quantity-txt">quantity</label>
+  <input type="number" id="quantity-txt" name="quantity" value="1" min="1" max="{{ product.variants.first.inventory_quantity }}">
+  <button onclick="addToCartBtn()" class="btn {% if product.available  %}btn-active{% endif %}" type="submit" name="add" id="add-to-cart-btn" {% unless product.available  %} disabled {% endunless %}>
+    Add to cart
+  </button>
 </form>
 <div>{{ product.description }}</div>
+<script> 
+  function addToCartBtn() {
+    if ({{ product.available }}) {
+      const quantity = document.getElementById('quantity-txt').value;
+      const productId = {{ product.variants.first.id }};
+      const cartItemCount = {{ cart.item_count }};
+      const inventoryVariantQuantity = {{ product.variants.first.inventory_quantity }};
+
+      if(quantity > inventoryVariantQuantity - cartItemCount)
+      {
+        return alert("The number of items is greater than the quantity of the variant");
+      }
+
+      const formData = {
+        items: [
+          {
+            quantity: quantity,
+            id: productId,
+            properties: {
+              cart_index: cartItemCount
+            }
+          }
+        ]
+      };
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        alert("Product added to cart");
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+  }
+</script>
+<style>
+  .btn-active {
+    background-color: blue; /* Background color on hover */
+    color: white; /* Text color on hover */
+  }
+  .btn-active:hover {
+    background-color: green; /* Background color on hover */
+    color: white; /* Text color on hover */
+  }
+</style>
