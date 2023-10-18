@@ -1,0 +1,8 @@
+# NPM packages folder.
+node_modules
+
+# Build files
+dist/
+
+# VS code settings
+.vscode

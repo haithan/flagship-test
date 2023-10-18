@@ -1,0 +1,23 @@
+{
+  "name": "flagship-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "createProductMetafield.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haithan/flagship-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haithan/flagship-test/issues"
+  },
+  "homepage": "https://github.com/haithan/flagship-test#readme",
+  "dependencies": {
+    "@shopify/shopify-api": "^8.0.1"
+  }
+}
