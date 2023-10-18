@@ -1,6 +1,45 @@
 {
-  "current": "Default",
+  "current": {
+    "sections": {
+      "news-carousel": {
+        "type": "news-carousel",
+        "blocks": {
+          "27846634-e03d-42e9-ba0e-98a57d0eca32": {
+            "type": "campaign",
+            "settings": {
+              "title": "Campaign Title",
+              "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum justo augue, vel laoreet elit dapibus nec. Sed suscipit vel felis vel malesuada. Nunc sed nibh nec lacus aliquet mattis. In ex libero, facilisis tincidunt convallis nec, varius dictum lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur gravida libero ac lorem venenatis, in ultrices libero tincidunt. Vivamus sit amet pharetra ante.",
+              "featured": false
+            }
+          },
+          "d87fc91f-15ca-4c71-b305-4f8f1d96c6a5": {
+            "type": "new-product",
+            "settings": {
+              "title": "New Product Title",
+              "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum justo augue, vel laoreet elit dapibus nec. Sed suscipit vel felis vel malesuada. Nunc sed nibh nec lacus aliquet mattis. In ex libero, facilisis tincidunt convallis nec, varius dictum lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur gravida libero ac lorem venenatis, in ultrices libero tincidunt. Vivamus sit amet pharetra ante.",
+              "featured": false
+            }
+          },
+          "c42dcaf6-7caa-4f16-9429-5781382542e6": {
+            "type": "news",
+            "settings": {
+              "title": "News Title",
+              "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum justo augue, vel laoreet elit dapibus nec. Sed suscipit vel felis vel malesuada. Nunc sed nibh nec lacus aliquet mattis. In ex libero, facilisis tincidunt convallis nec, varius dictum lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur gravida libero ac lorem venenatis, in ultrices libero tincidunt. Vivamus sit amet pharetra ante.",
+              "featured": false
+            }
+          }
+        },
+        "block_order": [
+          "27846634-e03d-42e9-ba0e-98a57d0eca32",
+          "d87fc91f-15ca-4c71-b305-4f8f1d96c6a5",
+          "c42dcaf6-7caa-4f16-9429-5781382542e6"
+        ],
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  },
   "presets": {
-    "Default": { }
+    "Default": {}
   }
 }

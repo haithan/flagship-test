@@ -1,0 +1,121 @@
+{% schema %}
+{
+  "name": "News carousel",
+  "blocks": [
+    {
+      "type": "campaign",
+      "name": "Campaign Block",
+      "settings": [
+            {
+              "type": "text",
+              "label": "Title",
+              "id": "title",
+              "default": "Campaign Title"
+            },
+            {
+              "type": "textarea",
+              "label": "Description",
+              "id": "description",
+              "default": "Campaign Description"
+            },
+            {
+              "type": "checkbox",
+              "label": "Featured",
+              "id": "featured",
+              "default": false
+            }
+      ]
+    },
+    {
+      "type": "new-product",
+      "name": "New Product Block",
+      "settings": [
+            {
+              "type": "text",
+              "label": "Title",
+              "id": "title",
+              "default": "New Product Title"
+            },
+            {
+              "type": "textarea",
+              "label": "Description",
+              "id": "description",
+              "default": "New Product Description"
+            },
+            {
+              "type": "checkbox",
+              "label": "Featured",
+              "id": "featured",
+              "default": false
+            }
+      ]
+    },
+    {
+      "type": "news",
+      "name": "News Block",
+      "settings": [
+            {
+              "type": "text",
+              "label": "Title",
+              "id": "title",
+              "default": "News Title"
+            },
+            {
+              "type": "textarea",
+              "label": "Description",
+              "id": "description",
+              "default": "News Description"
+            },
+            {
+              "type": "checkbox",
+              "label": "Featured",
+              "id": "featured",
+              "default": false
+            }
+      ]
+    }
+  ]
+}
+{% endschema %}
+<div class="new-carousel">
+  {% for block in section.blocks %}
+    {% assign title_color = '' %}
+    {% case block.type %}
+      {% when 'campaign' %}
+        {% assign title_color = 'red' %}
+      {% when 'new-product' %}
+        {% assign title_color = 'blue' %}
+      {% else %}
+        {% assign title_color = 'green' %}
+    {% endcase %}
+    {% if block.settings.featured %}
+      <div class="featured-block">
+        <h2 style="color: {{ title_color }}">{{ block.settings.title }}</h2>
+        <p>{{ block.settings.description }}</p>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% for block in section.blocks %}
+    {% assign title_color = '' %}
+    {% case block.type %}
+      {% when 'campaign' %}
+        {% assign title_color = 'red' %}
+      {% when 'new-product' %}
+        {% assign title_color = 'blue' %}
+      {% else %}
+        {% assign title_color = 'green' %}
+    {% endcase %}
+    {% unless block.settings.featured %}
+      <div class="featured-block">
+        <h2 style="color: {{ title_color }}">{{ block.settings.title }}</h2>
+        <p>{{ block.settings.description }}</p>
+      </div>
+    {% endunless %}
+  {% endfor %}
+</div>
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
