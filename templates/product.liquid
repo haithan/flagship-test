@@ -7,7 +7,7 @@
   </a>
 {% endfor %}
 <h1>{{ product.title }}</h1>
-<form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
+<form id="AddToCartForm">
   <select name="id" id="product-select">
     {% for variant in product.variants %}
       {% if variant.available %}
@@ -29,53 +29,92 @@
   </button>
 </form>
 <div>{{ product.description }}</div>
-<script> 
+
+<div class="modal fade" id="product-info" tabindex="-1" role="dialog" aria-labelledby="product-info-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="product-info-title">Product Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Current stock: {{ product.variants.first.inventory_quantity }}</p>
+
+        <h6>Your Cart:</h6>
+        <p>Total item: {{ cart.item_count }}</p>
+        <ul>
+          {% for item in cart.items %}
+            <li>
+              {{ item.product.title }} (Cart index: {{ item.properties.cart_index }}, Quantity: {{ item.quantity }})
+            </li>
+          {% endfor %}
+        </ul>
+        <p>Total Amount in Cart: {{ cart.total_price |  money }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function checkValidStock() {
+    const quantity = $('#quantity-txt').val();
+    const productId = {{ product.variants.first.id }};
+    const cartItemCount = {{ cart.item_count }};
+    const inventoryVariantQuantity = {{ product.variants.first.inventory_quantity }};
+    if (quantity > inventoryVariantQuantity - cartItemCount) {
+      $('#add-to-cart-btn').attr('disabled', 'disabled');
+      $('#add-to-cart-btn').removeClass('btn-active');
+    }
+  }
+
   function addToCartBtn() {
     if ({{ product.available }}) {
-      const quantity = document.getElementById('quantity-txt').value;
+      const quantity = $('#quantity-txt').val();
       const productId = {{ product.variants.first.id }};
       const cartItemCount = {{ cart.item_count }};
       const inventoryVariantQuantity = {{ product.variants.first.inventory_quantity }};
 
-      if(quantity > inventoryVariantQuantity - cartItemCount)
-      {
-        return alert("The number of items is greater than the quantity of the variant");
-      }
-
-      const formData = {
-        items: [
-          {
-            quantity: quantity,
-            id: productId,
-            properties: {
-              cart_index: cartItemCount
+      if (quantity > inventoryVariantQuantity - cartItemCount) {
+        alert("The number of items is greater than the quantity of the variant");
+      } else {
+        const formData = {
+          items: [
+            {
+              quantity: quantity,
+              id: productId,
+              properties: {
+                cart_index: cartItemCount
+              }
             }
-          }
-        ]
-      };
+          ]
+        };
 
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log(data);
-        alert("Product added to cart");
-      })
-      .catch(error => {
-        console.error(error);
-      });
+        $.ajax({
+          type: "POST",
+          url: "/cart/add.js",
+          data: JSON.stringify(formData),
+          contentType: 'application/json',
+          dataType: "json",
+          success: function(data) {
+            console.log(data);
+            window.location.reload();
+          },
+          error: function(error) {
+            console.error('Error:', error);
+          }
+        });
+      }
     }
   }
+
+  $(document).ready(function() {
+    checkValidStock();
+    $('#product-info').modal('show');
+  });
 </script>
 <style>
   .btn-active {
